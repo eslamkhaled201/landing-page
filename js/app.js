@@ -23,18 +23,6 @@ let navbarList = document.getElementById('navbar__list');
 let toggler = document.querySelector('.toggle-bar');
 let navList =document.querySelector('.navbar__list');
 
-
-document.querySelector('.toggler').addEventListener('click' ,()=>{
-    toggler.classList.toggle('toggle');
-    if (navList.classList.contains('open')) {
-        navList.classList.remove("open")
-        navList.classList.add('close');
-    }else{
-        navList.classList.remove("close")
-        navList.classList.add('open');
-    }
-})
-
 /**
  * End Global Variables
  **/
@@ -57,6 +45,19 @@ sections.forEach(element => {
 });
 
 navbarList.append(navLnksDomFrg);
+
+// build toggle action for navbar toggler for small screens (tabltes, phones )
+document.querySelector('.toggler').addEventListener('click' ,()=>{
+    toggler.classList.toggle('toggle');
+    if (navList.classList.contains('open')) {
+        navList.classList.remove("open")
+        navList.classList.add('close');
+    }else{
+        navList.classList.remove("close")
+        navList.classList.add('open');
+    }
+})
+
 // Add class 'active' to section when near top of viewport
 function chageActiveSecTo(section) {
     if (window.pageYOffset >= section.offsetTop -100) {
