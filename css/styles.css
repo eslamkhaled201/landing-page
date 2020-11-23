@@ -1,18 +1,7 @@
-/*
- *
- * CSS written based on SMACSS architecture.
- * To learn more, visit: http://smacss.com/
- * 
- * For simplicity, no reset or normalize is added. 
- * To learn more, visit: https://css-tricks.com/reboot-resets-reasoning/
- *
-*/
+
 
 
 /* ---- Base Rules ---- */
-*{
-    box-sizing: border-box;
-}
 body {
     background: rgb(136,203,171);
     background: linear-gradient(0deg, rgba(136,203,171,1) 0%, rgba(0,13,60,1) 100%);
@@ -67,16 +56,88 @@ section {
 /* ---- Module Rules ---- */
 
 /* Navigation Styles*/
-.navbar__menu ul {
+.navbar__menu{
+   display: flex;
+   flex-direction: column;
+
+}
+.toggler{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+    height: 50px;
+    right: 2rem;
+    top: 10px;
+    display: none;
+}
+.toggle-bar::before{
+    position: absolute;
+    content: "";
+    width: 33px;
+    height: 2.5px;
+    background: rgba(0, 0, 0, 0.74);
+    border-radius: 10px;
+    top: -10px;
+    opacity: 1;
+}
+.toggle-bar{
+    border-radius: 5px;
+    position: relative;
+    width: 33px;
+    height: 1.5px;
+    background: rgba(0, 0, 0, 0.74);
+    
+}
+.toggle-bar::after{
+    position: absolute;
+    border-radius: 5px;
+    content: " ";
+    width: 33px;
+    height: 2.5px;
+    background: rgba(0, 0, 0, 0.74);
+    top: 10px;
+}
+.toggle::before{
+    animation-name: hidden;
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
+}
+.toggle{
+    animation-name: rotateMain;
+    animation-duration: 0.3s;
+    animation-delay: 0.3s;
+    animation-fill-mode: forwards;
+}
+.toggle::after{
+    animation-name: rotateAfter;
+    animation-duration: 0.3s;
+    animation-delay: 0.2s;
+    animation-fill-mode: forwards;
+}
+@keyframes hidden{
+    0%{  opacity: 1;}
+    100%{top: 0;opacity: 0;}
+}
+@keyframes rotateAfter{
+    0%{transform: rotate(0);}
+    50%{top:0;}
+    100%{top:0;transform: rotate(-90deg) ;}
+}
+@keyframes rotateMain {
+    0%{transform: rotate(0); }
+    100%{transform: rotate(-45deg);height: 2.5px;}
+}
+
+.navbar__list{
+    list-style: none;
     padding-left: 0;
     margin: 0;
-    text-align: right;
+    display: flex;
+    justify-content: center;
 }
-
-.navbar__menu li {
-    display: inline-block;
-}
-
 .navbar__menu .menu__link {
     display: block;
     padding: 1em;
@@ -230,4 +291,46 @@ section.active .landing__container::after {
 		           translate(-1em) 
 		           rotate(-360deg);
 	}
+}
+
+/* media query settings */
+@media (max-width: 768px) {
+    body{
+        font-size: 12px;
+    }
+    section{
+        padding: 1rem 0;
+        margin:  1rem;
+    }
+    .navbar__menu{
+        padding-bottom: 1rem;
+    }
+    .navbar__list{
+        flex-direction: column;
+        height: 0;
+        overflow: hidden;
+    }
+    .toggler{
+        display: flex;
+    }
+    .open{
+        animation-name: toggleDown ;
+        animation-duration: .5s;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
+    }
+    .close{
+        animation-name: toggleUp ;
+        animation-duration: .5s;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
+    }
+    @keyframes toggleDown {
+        0%{height: 0vh;}
+        100%{height:30vh ; }
+    }
+    @keyframes toggleUp {
+        0%{height: 30vh; }
+        100%{ height: 0vh;  }
+    }
 }

@@ -20,11 +20,52 @@
 let sections = document.querySelectorAll('section');
 let navLnksDomFrg = document.createDocumentFragment();
 let navbarList = document.getElementById('navbar__list');
+let toggler = document.querySelector('.toggle-bar');
+let navList =document.querySelector('.navbar__list');
+
+
+document.querySelector('.toggler').addEventListener('click' ,()=>{
+    toggler.classList.toggle('toggle');
+    if (navList.classList.contains('open')) {
+        navList.classList.remove("open")
+        navList.classList.add('close');
+    }else{
+        navList.classList.remove("close")
+        navList.classList.add('open');
+    }
+})
 
 /**
  * End Global Variables
- * Start Helper Functions
+ **/
+
+/** 
+ * Begin Main Functions
 */
+
+// build the nav
+
+sections.forEach(element => {
+    let navLnk = document.createElement('li');
+    navLnk.innerHTML = `<a class="menu__link" href="${element.id}">${element.id}</a>`;
+    navLnk.firstElementChild.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); smoothScroll(e.target) });
+    navLnksDomFrg.append(navLnk);
+    window.addEventListener('scroll' , function () {
+        chageActiveSecTo(element);
+    })
+    window.onload = chageActiveSecTo(element);
+});
+
+navbarList.append(navLnksDomFrg);
+// Add class 'active' to section when near top of viewport
+function chageActiveSecTo(section) {
+    if (window.pageYOffset >= section.offsetTop -100) {
+         $(section).siblings().removeClass('active');
+        $(section).addClass('active');
+    }
+}
+
+// Scroll to anchor ID using scrollTO event
 
 function smoothScroll(navlink) {
     let targetId = navlink.getAttribute('href');
@@ -32,44 +73,6 @@ function smoothScroll(navlink) {
     let distance = targetTopOff - window.pageYOffset;
     scrollBy({ top: distance, behavior: 'smooth' });
 }
-function chageActiveSec() {
-    if (window.pageYOffset >= sections.item(2).offsetTop -100) {
-         $(sections.item(2)).siblings().removeClass('active');
-        sections.item(2).classList.add('active');
-    }else if (window.pageYOffset >= sections.item(1).offsetTop -100) {
-        $(sections.item(1)).siblings().removeClass('active');
-        sections.item(1).classList.add('active');
-    }else if (window.pageYOffset >= sections.item(0).offsetTop -100) {
-        $(sections.item(0)).siblings().removeClass('active');
-        sections.item(0).classList.add('active');
-    }
-}
-sections.forEach(element => {
-    let navLnk = document.createElement('li');
-    navLnk.innerHTML = `<a class="menu__link" href="${element.id}">${element.id}</a>`;
-    navLnk.firstElementChild.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); smoothScroll(e.target) });
-    navLnksDomFrg.append(navLnk);
-});
-window.onload = chageActiveSec();
-navbarList.append(navLnksDomFrg);
-window.addEventListener('scroll' , function () {
-    chageActiveSec();
-} )
-
-/**
- * End Helper Functions
- * Begin Main Functions
- *
-*/
-
-// build the nav
-
-
-// Add class 'active' to section when near top of viewport
-
-
-// Scroll to anchor ID using scrollTO event
-
 
 /**
  * End Main Functions
